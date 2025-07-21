@@ -1,14 +1,17 @@
 #include <stdio.h>
 
 int main() {
-    int units;
-    int bill;
+    float units,bill;
+    printf("enter number of electricity units");
+    scanf("%f", &units);
 
-    scanf("%d", &units);
-
-    if (units <= 100) {
+    if (units < 0)
+     {
+        printf("Money can't be negative\n");
+    } else if (units <= 100) {
         bill = units * 5;
-    } else if (units <= 300) {
+    } else if (units <= 300)
+     {
         bill = 100 * 5;
         bill = bill + (units - 100) * 8;
     } else {
@@ -17,7 +20,6 @@ int main() {
         bill = bill + (units - 300) * 10;
     }
 
-    printf("Total bill is ₹%d\n", bill);
-
+    printf("Total bill is ₹%.2f\n", bill);
     return 0;
 }
