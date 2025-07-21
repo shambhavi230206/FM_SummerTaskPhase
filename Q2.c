@@ -1,22 +1,28 @@
 #include <stdio.h>
 
 int main() {
-    int totalSeconds;
-    int hours;
-    int minutes;
-    int seconds;
+    float inputSeconds,seconds;
+    int hours, minutes;
 
-    scanf("%d", &totalSeconds);
+    printf("Enter total seconds: ");
+    scanf("%f",&inputSeconds);
 
-    hours = totalSeconds / 3600;
-    totalSeconds = totalSeconds % 3600;
+    if (inputSeconds < 0) {
+        printf("Time can't be negative\n");
+        return 1;
+    }
 
-    minutes = totalSeconds / 60;
-    seconds = totalSeconds % 60;
+    hours = (int)(inputSeconds / 3600);
+    inputSeconds -= hours * 3600;
+
+    minutes = (int)(inputSeconds / 60);
+    inputSeconds -= minutes * 60;
+
+    seconds = inputSeconds; 
 
     printf("Hours: %d\n", hours);
     printf("Minutes: %d\n", minutes);
-    printf("Seconds: %d\n", seconds);
+    printf("Seconds: %.2f\n", seconds); 
 
     return 0;
 }
