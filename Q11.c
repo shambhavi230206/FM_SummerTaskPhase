@@ -1,38 +1,105 @@
 #include <stdio.h>
+#include <string.h>
 
-struct product {
-    int id;
-    char name[50];
+#define MAX_PRODUCTS 100
+#define NAME_LEN 50
+
+// Define structure for product
+struct Product {
+    int productID;
+    char name[NAME_LEN];
     int quantity;
     float price;
 };
 
 int main() {
-    int n, i, maxQ = 0, maxP = 0;
-    float total = 0;
-    struct product p[100];
+    struct Product products[MAX_PRODUCTS];
+    int n;
+    float totalValue = 0.0;
+    float tempPrice;
+    float maxPrice = 0.0;
+    int maxQuantity = 0;
+    int maxQtyIndex = 0, maxPriceIndex = 0;
+    char ch;
+    float temp;
+    
+    // Take number of products
+    printf("Enter number of products (1 to %d): ", MAX_PRODUCTS);
+    if (scanf("%f%c", &temp, &ch) != 2 || ch != '\n' || (int)temp != temp || temp <= 0 || temp > MAX_PRODUCTS) {
+        printf("Invalid input. Please enter a valid positive integer.\n");
+        return 1;
+    }
+    n = (int)temp;
 
-    scanf("%d", &n);
+    // Input product details
+    for (int i = 0; i < n; i++) {
+        printf("\n--- Enter details for product %d ---\n", i + 1);
 
-    for(i=0; i<n; i++) {
-        scanf("%d %s %d %f", &p[i].id, p[i].name, &p[i].quantity, &p[i].price);
+        // Product ID
+        printf("Product ID: ");
+        if (scanf("%f%c", &temp, &ch) != 2 || ch != '\n' || (int)temp != temp) {
+            printf("Invalid Product ID. Must be an integer.\n");
+            return 1;
+        }
+        products[i].productID = (int)temp;
+
+        // Clear newline before taking string input
+        while ((getchar()) != '\n');
+
+        // Product Name
+        printf("Product Name: ");
+        fgets(products[i].name, NAME_LEN, stdin);
+        products[i].name[strcspn(products[i].name, "\n")] = '\0'; // remove trailing newline
+
+        // Quantity
+        printf("Quantity: ");
+        if (scanf("%f%c", &temp, &ch) != 2 || ch != '\n' || (int)temp != temp || temp < 0) {
+            printf("Invalid Quantity. Must be a non-negative integer.\n");
+            return 1;
+        }
+        products[i].quantity = (int)temp;
+
+        // Price
+        printf("Price: ");
+        if (scanf("%f%c", &tempPrice, &ch) != 2 || ch != '\n' || tempPrice < 0) {
+            printf("Invalid Price. Must be a non-negative float.\n");
+            return 1;
+        }
+        products[i].price = tempPrice;
+
+        // Calculate total inventory value
+        totalValue += products[i].quantity * products[i].price;
+
+        // Track max quantity
+        if (products[i].quantity > maxQuantity) {
+            maxQuantity = products[i].quantity;
+            maxQtyIndex = i;
+        }
+
+        // Track max price
+        if (products[i].price > maxPrice) {
+            maxPrice = products[i].price;
+            maxPriceIndex = i;
+        }
     }
 
-    for(i=0; i<n; i++) {
-        total = total + (p[i].quantity * p[i].price);
-        if(p[i].quantity > p[maxQ].quantity) {
-            maxQ = i;
-        }
-        if(p[i].price > p[maxP].price) {
-            maxP = i;
-        }
-    }
+    // Output results
+    printf("\n============================\n");
+    printf("Total Inventory Value: ₹%.2f\n", totalValue);
 
-    printf("Total inventory value: %.2f\n", total);
-    printf("Product with highest quantity:\n");
-    printf("%d %s %d %.2f\n", p[maxQ].id, p[maxQ].name, p[maxQ].quantity, p[maxQ].price);
-    printf("Product with highest price:\n");
-    printf("%d %s %d %.2f\n", p[maxP].id, p[maxP].name, p[maxP].quantity, p[maxP].price);
+    printf("\nProduct with Highest Quantity:\n");
+    printf("ID: %d\n", products[maxQtyIndex].productID);
+    printf("Name: %s\n", products[maxQtyIndex].name);
+    printf("Quantity: %d\n", products[maxQtyIndex].quantity);
+    printf("Price: ₹%.2f\n", products[maxQtyIndex].price);
+
+    printf("\nProduct with Highest Price:\n");
+    printf("ID: %d\n", products[maxPriceIndex].productID);
+    printf("Name: %s\n", products[maxPriceIndex].name);
+    printf("Quantity: %d\n", products[maxPriceIndex].quantity);
+    printf("Price: ₹%.2f\n", products[maxPriceIndex].price);
 
     return 0;
 }
+
+
