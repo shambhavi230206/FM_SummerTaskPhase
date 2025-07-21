@@ -1,33 +1,28 @@
 #include <stdio.h>
 
+// Recursive function to find nth Fibonacci number
 int fibonacci(int n) {
-int result;
-if(n == 0) {
-    return 0; 
-}
-else if(n == 1) {
-    return 1;
-}
-else {
-    result = fibonacci(n-1) + fibonacci(n-2); 
-}
-return result;
+    if (n == 0)
+        return 0;  // 0th term
+    else if (n == 1)
+        return 1;  // 1st term
+    else
+        return fibonacci(n - 1) + fibonacci(n - 2);  // Recursive case
 }
 
 int main() {
-int n, answer;
-n = 0; answer = 0;
+    int n;
 
-printf("Enter which term you want (0-based index): ");
-scanf("%d", &n);
+    printf("Enter a non-negative integer to find the nth Fibonacci number: ");
+    if (scanf("%d", &n) != 1 || n < 0) {
+        printf("Invalid input! Please enter a non-negative whole number.\n");
+        return 1;
+    }
 
-if(n < 0) {
-    printf("Negative numbers not allowed!!!\n");
-    return 1;
+    int result = fibonacci(n);
+    printf("The %dth term of the Fibonacci series is: %d\n", n, result);
+
+    return 0;
 }
 
-answer = fibonacci(n);
-printf("The %dth Fibonacci term is: %d\n", n, answer);
 
-return 0;
-}
