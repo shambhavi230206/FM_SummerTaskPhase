@@ -1,48 +1,44 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
-void compress(char str[], int i, int len, int count)
-{
-char current; 
-current = ' ';
-if(i == len) 
-{
-    printf("%c%d", str[i-1], count);
-    return;
-}
-
-current = str[i];
-
-if(i == 0)
-{
-    compress(str, i+1, len, 1);
-}
-else
-{
-    if(str[i] == str[i-1])
-    {
-        count = count + 1;
-        compress(str, i+1, len, count);
+// Recursive function to compress the string
+void compress(char *str, int index, int count) {
+    // Base case: if end of string
+    if (str[index] == '\0') {
+        printf("%c%d", str[index - 1], count);  // Print last character and count
+        return;
     }
-    else
-    {
-        printf("%c%d", str[i-1], count);
-        compress(str, i+1, len, 1);
+
+    // If current char same as previous, increment count
+    if (str[index] == str[index - 1]) {
+        compress(str, index + 1, count + 1);
+    } else {
+        // Else print previous char and its count, and start new count
+        printf("%c%d", str[index - 1], count);
+        compress(str, index + 1, 1);
     }
 }
+
+int main() {
+    char str[100];
+
+    printf("Enter a lowercase alphabetic string: ");
+    scanf("%s", str);
+
+    // Input validation: allow only letters, reject numbers/floats/symbols
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (!isalpha(str[i])) {
+            printf("Invalid input! Please enter only alphabetic characters.\n");
+            return 1;
+        }
+    }
+
+    printf("Compressed string: ");
+    compress(str, 1, 1);  // Start from index 1, initial count 1
+    printf("\n");
+
+    return 0;
 }
 
-int main()
-{
-char s[100];
-int length;
-printf("Enter the string: ");
-scanf("%s", s);
 
-length = strlen(s);
-
-compress(s, 0, length, 0);
-
-printf("\n");
-return 0;
-}
