@@ -1,33 +1,25 @@
-
 #include <stdio.h>
 
 int main() {
-int i, j, space, n, stars;
+    float temp;
+    char ch;
+    int n;
 
-    printf("enter no of rows: ");
-    scanf("%d", &n);
+    printf("Enter the number of rows (positive integer): ");
+    if (scanf("%f%c", &temp, &ch) != 2 || ch != '\n' || (int)temp != temp || temp <= 0) {
+        printf("Invalid input. Please enter a positive integer only.\n");
+        return 1;
+    }
+    n = (int)temp;
 
-i = 1;
-
-while(i <= n)
-{
-space = n - i;
-        while(space > 0)
-        {
-      printf(" ");
-space = space - 1;
+    printf("\nStar Pattern:\n");
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= i; j++) {
+            printf("*");
         }
-
-j = 1;
-while(j <= (2 * i - 1))
-{
-    printf("*");
-        j = j + 1;
-}
-
         printf("\n");
-    i = i + 1;
-}
+    }
 
     return 0;
 }
+
